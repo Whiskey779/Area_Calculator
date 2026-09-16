@@ -9,11 +9,44 @@ import "core:strings"
 // circle
 // trapezium
 
+Shapes :: enum {
+	Square,
+	Rectange,
+	Circle,
+	Trapezium,
+}
+
 main :: proc() {
 	fmt.println("Welcome to the Area Calculater!")
-	buf: [10]u8
-	text := YesOrNo("Do you like Math?")
-	fmt.println(text)
+	if YesOrNo("Do you want to read the instructions?") {
+		Instructions()
+	}
+	shape := GetShapeForUser()
+}
+
+GetShapeForUser :: proc() -> Shapes {
+	buffer: [10]u8
+	for true {
+		input := GetUserInput(
+			"What shapes area do you want to calculate? (square | rectange | circle | trapezium)",
+			buffer[:],
+		)
+		input = RemoveSpaces(input)
+		if input == "trapezium" {
+			return Shapes.Trapezium
+		}
+		if input == "square" {
+			return Shapes.Square
+		}
+		if input == "rectange" {
+			return Shapes.Rectange
+		}
+		if input == "circle" {
+			return Shapes.Circle
+		}
+		fmt.println("Please enter enter \"circle\", \"trapezium\", \"rectange\" or \"square\"")
+	}
+	return Shapes.Square // to make compiller happy
 }
 
 GetUserInput :: proc(question: string, buffer: []u8) -> string {
@@ -30,7 +63,7 @@ YesOrNo :: proc(message: string) -> bool {
 	buffer: [6]u8
 	for true {
 		anwser := GetUserInput(strings.concatenate({message, " (yes | no)"}), buffer[:])
-		anwser = remove_spaces(anwser)
+		anwser = RemoveSpaces(anwser)
 		if anwser == "yes" || anwser == "y" {
 			return true
 		}
@@ -39,10 +72,10 @@ YesOrNo :: proc(message: string) -> bool {
 		}
 		fmt.println("Please enter enter \"yes\" or \"no\"")
 	}
-	return false
+	return false // to make compiller happy
 }
 
-remove_spaces :: proc(s: string) -> string {
+RemoveSpaces :: proc(s: string) -> string {
 	result := make([dynamic]u8, 0, len(s))
 
 	for c in s {
@@ -52,4 +85,8 @@ remove_spaces :: proc(s: string) -> string {
 	}
 
 	return string(result[:])
+}
+
+Instructions :: proc() {
+	fmt.printfln("Very Cool Instructions!")
 }
