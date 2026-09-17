@@ -22,6 +22,36 @@ main :: proc() {
 		Instructions()
 	}
 	shape := GetShapeForUser()
+	FindArea(shape)
+}
+
+FindArea :: proc(shape: Shapes) {
+	switch shape {
+	case .Square:
+		Square()
+	case .Rectange:
+		Rectange()
+	case .Circle:
+		Circle()
+	case .Trapezium:
+		Trapezium()
+	}
+}
+
+Square :: proc() {
+	fmt.println("Formula: s^2")
+}
+
+Rectange :: proc() {
+	fmt.println("Formula: b * h")
+}
+
+Circle :: proc() {
+	fmt.println("Formula: πr^2")
+}
+
+Trapezium :: proc() {
+	fmt.println("Formula: h(a + b)/2")
 }
 
 GetShapeForUser :: proc() -> Shapes {
