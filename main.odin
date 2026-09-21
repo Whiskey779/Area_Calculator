@@ -1,8 +1,12 @@
 package main
 
 import "core:fmt"
+import "core:math"
 import "core:os"
+import "core:strconv"
 import "core:strings"
+
+inputBuffer: [50]u8
 
 // square
 // rectange
@@ -21,7 +25,7 @@ main :: proc() {
 	if YesOrNo("Do you want to read the instructions?") {
 		Instructions()
 	}
-	shape := GetShapeForUser()
+	shape := GetShapeFromUser()
 	FindArea(shape)
 }
 
@@ -40,38 +44,74 @@ FindArea :: proc(shape: Shapes) {
 
 Square :: proc() {
 	fmt.println("Formula: s^2")
+	side := GetShapeLength("Side")
+	area := side * side
+	fmt.printfln("The Area of the Square is %f", area)
 }
 
 Rectange :: proc() {
 	fmt.println("Formula: b * h")
+	base := GetShapeLength("Base")
+	height := GetShapeLength("Height")
+	area := base * height
+	fmt.printfln("The Area of the Rectange is %f", area)
 }
 
 Circle :: proc() {
 	fmt.println("Formula: πr^2")
+	radius := GetShapeLength("Radius")
+	area := math.PI * (radius * radius)
+	fmt.printfln("The Area of the Circle is %f", area)
 }
 
 Trapezium :: proc() {
 	fmt.println("Formula: h(a + b)/2")
+	height := GetShapeLength("Height")
+	a := GetShapeLength("First parallel line")
+	b := GetShapeLength("Second parallel line")
+	area := height * (a + b) / 2
+	fmt.printfln("The Area of the Trapezium is %f", area)
 }
 
-GetShapeForUser :: proc() -> Shapes {
-	buffer: [10]u8
+GetShapeLength :: proc(lengthName: string) -> f32 {
+	for true {
+		textLenght := GetUserInput(
+			fmt.tprintf("Please enter the length of the %s. (between 0 and 1000):", lengthName),
+		)
+		textLenght = RemoveSpaces(textLenght)
+		length, ok := strconv.parse_f32(textLenght)
+		if ok {
+			if length <= 0 || length >= 1000 {
+				fmt.println("Please enter a float between 0 and 1000")
+			} else {
+				return length
+			}
+		} else {
+			fmt.printfln(
+				"Please enter a floting point number. Can not convet '%s' to float",
+				textLenght,
+			)
+		}
+	}
+	return 0 // to make compiller happy
+}
+
+GetShapeFromUser :: proc() -> Shapes {
 	for true {
 		input := GetUserInput(
 			"What shapes area do you want to calculate? (square | rectange | circle | trapezium)",
-			buffer[:],
 		)
 		input = RemoveSpaces(input)
-		if input == "trapezium" {
+		if input == "trapezium" || input == "t" {
 			return Shapes.Trapezium
 		}
-		if input == "square" {
+		if input == "square" || input == "s" {
 			return Shapes.Square
 		}
-		if input == "rectange" {
+		if input == "rectange" || input == "r" {
 			return Shapes.Rectange
 		}
-		if input == "circle" {
+		if input == "circle" || input == "c" {
 			return Shapes.Circle
 		}
 		fmt.println("Please enter enter \"circle\", \"trapezium\", \"rectange\" or \"square\"")
@@ -79,20 +119,19 @@ GetShapeForUser :: proc() -> Shapes {
 	return Shapes.Square // to make compiller happy
 }
 
-GetUserInput :: proc(question: string, buffer: []u8) -> string {
+GetUserInput :: proc(question: string) -> string {
 	fmt.print(strings.concatenate({question, " "}))
-	num_bytes, err := os.read(os.stdin, buffer)
+	num_bytes, err := os.read(os.stdin, inputBuffer[:])
 	if err != 0 {
 		fmt.printfln("Error Reading from stdin: %d", err)
 		return ""
 	}
-	return string(buffer[:num_bytes - 1])
+	return string(inputBuffer[:num_bytes - 1])
 }
 
 YesOrNo :: proc(message: string) -> bool {
-	buffer: [6]u8
 	for true {
-		anwser := GetUserInput(strings.concatenate({message, " (yes | no)"}), buffer[:])
+		anwser := GetUserInput(strings.concatenate({message, " (yes | no)"}))
 		anwser = RemoveSpaces(anwser)
 		if anwser == "yes" || anwser == "y" {
 			return true
