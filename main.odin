@@ -7,6 +7,7 @@ import "core:strconv"
 import "core:strings"
 
 inputBuffer: [50]u8
+historyList: [dynamic]string
 
 // square
 // rectange
@@ -25,8 +26,22 @@ main :: proc() {
 	if YesOrNo("Do you want to read the instructions?") {
 		Instructions()
 	}
-	shape := GetShapeFromUser()
-	FindArea(shape)
+	for true {
+		shape := GetShapeFromUser()
+		FindArea(shape)
+		if !YesOrNo("Do you want to find another area?") {
+			break
+		}
+	}
+	if YesOrNo("Do you want to see your history?") {
+		PrintHistory()
+	}
+}
+
+PrintHistory :: proc() {
+	for value in historyList {
+		fmt.println(value)
+	}
 }
 
 FindArea :: proc(shape: Shapes) {
@@ -47,6 +62,10 @@ Square :: proc() {
 	side := GetShapeLength("Side")
 	area := side * side
 	fmt.printfln("The Area of the Square is %f", area)
+	append(
+		&historyList,
+		fmt.tprintf("The area of a square with the side lenght of %f is %f.", side, area),
+	)
 }
 
 Rectange :: proc() {
@@ -55,6 +74,15 @@ Rectange :: proc() {
 	height := GetShapeLength("Height")
 	area := base * height
 	fmt.printfln("The Area of the Rectange is %f", area)
+	append(
+		&historyList,
+		fmt.tprintf(
+			"The area of a square with the base lenght of %f and the height of %f is %f.",
+			base,
+			height,
+			area,
+		),
+	)
 }
 
 Circle :: proc() {
@@ -62,6 +90,10 @@ Circle :: proc() {
 	radius := GetShapeLength("Radius")
 	area := math.PI * (radius * radius)
 	fmt.printfln("The Area of the Circle is %f", area)
+	append(
+		&historyList,
+		fmt.tprintf("The area of a circle with the radius of %f is %f.", radius, area),
+	)
 }
 
 Trapezium :: proc() {
@@ -71,6 +103,16 @@ Trapezium :: proc() {
 	b := GetShapeLength("Second parallel line")
 	area := height * (a + b) / 2
 	fmt.printfln("The Area of the Trapezium is %f", area)
+	append(
+		&historyList,
+		fmt.tprintf(
+			"The area of a trapezium with the height of %f, one parral line lenght of %f and other parral line lenght of %f, is %f.",
+			height,
+			a,
+			b,
+			area,
+		),
+	)
 }
 
 GetShapeLength :: proc(lengthName: string) -> f32 {
