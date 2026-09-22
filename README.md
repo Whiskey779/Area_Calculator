@@ -10,3 +10,5 @@
   - circle
   - trapezium
 - Instructions
+- History
+- Loop mutiple times
