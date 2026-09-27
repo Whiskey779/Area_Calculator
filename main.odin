@@ -173,12 +173,12 @@ GetUserInput :: proc(question: string) -> string {
 
 YesOrNo :: proc(message: string) -> bool {
 	for true {
-		anwser := GetUserInput(strings.concatenate({message, " (yes | no)"}))
-		anwser = RemoveSpaces(anwser)
-		if anwser == "yes" || anwser == "y" {
+		answer := GetUserInput(strings.concatenate({message, " (yes | no)"}))
+		answer = RemoveSpaces(answer)
+		if answer == "yes" || answer == "y" {
 			return true
 		}
-		if anwser == "no" || anwser == "n" {
+		if answer == "no" || answer == "n" {
 			return false
 		}
 		fmt.println("Please enter enter \"yes\" or \"no\"")
