@@ -4,6 +4,7 @@
 - Get input from users
 - Yes No Function
 - user input to shapes enum
+- Get Shape Length
 - Finding Area
   - Square
   - rectange

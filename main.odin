@@ -6,14 +6,14 @@ import "core:os"
 import "core:strconv"
 import "core:strings"
 
+// raw input bytes are stored here
 inputBuffer: [50]u8
+
+// list of the areas found in the programmes run time
 historyList: [dynamic]string
 
-// square
-// rectange
-// circle
-// trapezium
 
+//all posible shapes
 Shapes :: enum {
 	Square,
 	Rectange,
@@ -21,6 +21,7 @@ Shapes :: enum {
 	Trapezium,
 }
 
+//program entry point
 main :: proc() {
 	fmt.println("Welcome to the Area Calculater!")
 	if YesOrNo("Do you want to read the instructions?") {
@@ -38,12 +39,15 @@ main :: proc() {
 	}
 }
 
+
+//prints the history to std out put
 PrintHistory :: proc() {
 	for value in historyList {
 		fmt.println(value)
 	}
 }
 
+//  picks which shape to calcuate from the users input
 FindArea :: proc(shape: Shapes) {
 	switch shape {
 	case .Square:
@@ -57,6 +61,8 @@ FindArea :: proc(shape: Shapes) {
 	}
 }
 
+
+// finds the area of the square by promting the user for the side leangths
 Square :: proc() {
 	fmt.println("Formula: s^2")
 	side := GetShapeLength("Side")
@@ -68,6 +74,7 @@ Square :: proc() {
 	)
 }
 
+// finds the area of the rectange by promting the user for the side leangths
 Rectange :: proc() {
 	fmt.println("Formula: b * h")
 	base := GetShapeLength("Base")
@@ -85,6 +92,7 @@ Rectange :: proc() {
 	)
 }
 
+// finds the area of the circle by promting the user for the side leangths
 Circle :: proc() {
 	fmt.println("Formula: πr^2")
 	radius := GetShapeLength("Radius")
@@ -96,6 +104,7 @@ Circle :: proc() {
 	)
 }
 
+// finds the area of the trapezium by promting the user for the side leangths
 Trapezium :: proc() {
 	fmt.println("Formula: h(a + b)/2")
 	height := GetShapeLength("Height")
@@ -115,6 +124,7 @@ Trapezium :: proc() {
 	)
 }
 
+//takes in the name the a side length and asks the user for its length
 GetShapeLength :: proc(lengthName: string) -> f32 {
 	for true {
 		textLenght := GetUserInput(
@@ -138,6 +148,7 @@ GetShapeLength :: proc(lengthName: string) -> f32 {
 	return 0 // to make compiller happy
 }
 
+// gets what shape the user wants to caluate and returns it
 GetShapeFromUser :: proc() -> Shapes {
 	for true {
 		input := GetUserInput(
@@ -161,6 +172,8 @@ GetShapeFromUser :: proc() -> Shapes {
 	return Shapes.Square // to make compiller happy
 }
 
+
+// prints a prompted to the std out and gets the users responce
 GetUserInput :: proc(question: string) -> string {
 	fmt.print(strings.concatenate({question, " "}))
 	num_bytes, err := os.read(os.stdin, inputBuffer[:])
@@ -171,6 +184,7 @@ GetUserInput :: proc(question: string) -> string {
 	return string(inputBuffer[:num_bytes - 1])
 }
 
+// gets the user to say yes or no to a question
 YesOrNo :: proc(message: string) -> bool {
 	for true {
 		answer := GetUserInput(strings.concatenate({message, " (yes | no)"}))
@@ -186,6 +200,8 @@ YesOrNo :: proc(message: string) -> bool {
 	return false // to make compiller happy
 }
 
+
+// removes spaces from a string
 RemoveSpaces :: proc(s: string) -> string {
 	result := make([dynamic]u8, 0, len(s))
 
@@ -198,6 +214,8 @@ RemoveSpaces :: proc(s: string) -> string {
 	return string(result[:])
 }
 
+
+// prints instructions
 Instructions :: proc() {
 	fmt.printfln("Very Cool Instructions!")
 }
