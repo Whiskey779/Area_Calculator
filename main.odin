@@ -16,7 +16,7 @@ historyList: [dynamic]string
 //all posible shapes
 Shapes :: enum {
 	Square,
-	Rectange,
+	Rectangle,
 	Circle,
 	Trapezium,
 }
@@ -52,8 +52,8 @@ FindArea :: proc(shape: Shapes) {
 	switch shape {
 	case .Square:
 		Square()
-	case .Rectange:
-		Rectange()
+	case .Rectangle:
+		Rectangle()
 	case .Circle:
 		Circle()
 	case .Trapezium:
@@ -74,13 +74,13 @@ Square :: proc() {
 	)
 }
 
-// finds the area of the rectange by promting the user for the side leangths
-Rectange :: proc() {
+// finds the area of the rectangle by promting the user for the side leangths
+Rectangle :: proc() {
 	fmt.println("Formula: b * h")
 	base := GetShapeLength("Base")
 	height := GetShapeLength("Height")
 	area := base * height
-	fmt.printfln("The Area of the Rectange is %f", area)
+	fmt.printfln("The Area of the Rectangle is %f", area)
 	append(
 		&historyList,
 		fmt.tprintf(
@@ -152,7 +152,7 @@ GetShapeLength :: proc(lengthName: string) -> f32 {
 GetShapeFromUser :: proc() -> Shapes {
 	for true {
 		input := GetUserInput(
-			"What shapes area do you want to calculate? (square | rectange | circle | trapezium)",
+			"What shapes area do you want to calculate? (square | rectangle | circle | trapezium)",
 		)
 		input = RemoveSpaces(input)
 		if input == "trapezium" || input == "t" {
@@ -161,13 +161,13 @@ GetShapeFromUser :: proc() -> Shapes {
 		if input == "square" || input == "s" {
 			return Shapes.Square
 		}
-		if input == "rectange" || input == "r" {
-			return Shapes.Rectange
+		if input == "rectangle" || input == "r" {
+			return Shapes.Rectangle
 		}
 		if input == "circle" || input == "c" {
 			return Shapes.Circle
 		}
-		fmt.println("Please enter enter \"circle\", \"trapezium\", \"rectange\" or \"square\"")
+		fmt.println("Please enter enter \"circle\", \"trapezium\", \"rectangle\" or \"square\"")
 	}
 	return Shapes.Square // to make compiller happy
 }
