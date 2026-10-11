@@ -140,7 +140,7 @@ GetShapeLength :: proc(lengthName: string) -> f32 {
 			}
 		} else {
 			fmt.printfln(
-				"Please enter a floting point number. Can not convet '%s' to float",
+				"Please enter a floating point number. Can not convert '%s' to float",
 				textLenght,
 			)
 		}
