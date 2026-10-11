@@ -7,7 +7,7 @@
 - Get Shape Length
 - Finding Area
   - Square
-  - rectange
+  - rectangle
   - circle
   - trapezium
 - Instructions
