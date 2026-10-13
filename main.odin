@@ -28,8 +28,7 @@ main :: proc() {
 		Instructions()
 	}
 	for true {
-		shape := GetShapeFromUser()
-		FindArea(shape)
+		FindArea()
 		if !YesOrNo("Do you want to find another area?") {
 			break
 		}
@@ -48,7 +47,8 @@ PrintHistory :: proc() {
 }
 
 //  picks which shape to calcuate from the users input
-FindArea :: proc(shape: Shapes) {
+FindArea :: proc() {
+	shape := GetShapeFromUser()
 	switch shape {
 	case .Square:
 		Square()
@@ -115,7 +115,7 @@ Trapezium :: proc() {
 	append(
 		&historyList,
 		fmt.tprintf(
-			"The area of a trapezium with the height of %f, one parral line lenght of %f and other parral line lenght of %f, is %f.",
+			"The area of a trapezium with the height of %f, one parral line lenght of %f, and other parral line lenght of %f is %f.",
 			height,
 			a,
 			b,
