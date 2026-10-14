@@ -223,5 +223,28 @@ RemoveSpaces :: proc(s: string) -> string {
 
 // prints instructions
 Instructions :: proc() {
-	fmt.printfln("Very Cool Instructions!")
+	fmt.printfln(
+		`Area Calculator - Instructions
+
+1. Choose a shape:
+   Square: square or s
+   Rectangle: rectangle or r
+   Circle: circle or c
+   Trapezium: trapezium or t
+
+2. Enter the requested measurements.
+   Measurements must be between 0.001 and 1000.
+
+3. The program will calculate and display the area.
+
+4. Choose whether to calculate another area.
+   Enter yes/y or no/n.
+
+5. At the end, choose whether to display your
+   calculation history.
+
+Note: Your history is not saved after the program closes.
+
+Enjoy using the Area Calculator!`,
+	)
 }
