@@ -128,13 +128,16 @@ Trapezium :: proc() {
 GetShapeLength :: proc(lengthName: string) -> f32 {
 	for true {
 		textLenght := GetUserInput(
-			fmt.tprintf("Please enter the length of the %s. (between 0 and 1000):", lengthName),
+			fmt.tprintf(
+				"Please enter the length of the %s. (between 0.001 and 1000):",
+				lengthName,
+			),
 		)
 		textLenght = RemoveSpaces(textLenght)
 		length, ok := strconv.parse_f32(textLenght)
 		if ok {
-			if length <= 0 || length >= 1000 {
-				fmt.println("Please enter a float between 0 and 1000")
+			if length < 0.001 || length > 1000 {
+				fmt.println("Please enter a float between 0.001 and 1000")
 			} else {
 				return length
 			}
@@ -152,7 +155,7 @@ GetShapeLength :: proc(lengthName: string) -> f32 {
 GetShapeFromUser :: proc() -> Shapes {
 	for true {
 		input := GetUserInput(
-			"What shapes area do you want to calculate? (square | rectangle | circle | trapezium)",
+			"What shapes area do you want to calculate? (square(s) | rectangle(r) | circle(c) | trapezium(t))",
 		)
 		input = RemoveSpaces(input)
 		if input == "trapezium" || input == "t" {
@@ -167,7 +170,7 @@ GetShapeFromUser :: proc() -> Shapes {
 		if input == "circle" || input == "c" {
 			return Shapes.Circle
 		}
-		fmt.println("Please enter enter \"circle\", \"trapezium\", \"rectangle\" or \"square\"")
+		fmt.println("Please enter \"circle\", \"trapezium\", \"rectangle\" or \"square\"")
 	}
 	return Shapes.Square // to make compiller happy
 }
@@ -187,7 +190,7 @@ GetUserInput :: proc(question: string) -> string {
 // gets the user to say yes or no to a question
 YesOrNo :: proc(message: string) -> bool {
 	for true {
-		answer := GetUserInput(strings.concatenate({message, " (yes | no)"}))
+		answer := GetUserInput(strings.concatenate({message, " (yes(y) | no(n))"}))
 		answer = RemoveSpaces(answer)
 		if answer == "yes" || answer == "y" {
 			return true
@@ -201,17 +204,20 @@ YesOrNo :: proc(message: string) -> bool {
 }
 
 
-// removes spaces from a string
+// removes spaces from start and end of a string
 RemoveSpaces :: proc(s: string) -> string {
-	result := make([dynamic]u8, 0, len(s))
+	start := 0
+	end := len(s)
 
-	for c in s {
-		if c != ' ' {
-			append(&result, u8(c))
-		}
+	for start < end && s[start] == ' ' {
+		start += 1
 	}
 
-	return string(result[:])
+	for end > start && s[end - 1] == ' ' {
+		end -= 1
+	}
+
+	return s[start:end]
 }
 
 
