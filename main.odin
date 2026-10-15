@@ -244,6 +244,7 @@ Instructions :: proc() {
    calculation history.
 
 Note: Your history is not saved after the program closes.
+Note: You can only enter 50 charactres in the input. The rest will be cut off.
 
 Enjoy using the Area Calculator!`,
 	)
